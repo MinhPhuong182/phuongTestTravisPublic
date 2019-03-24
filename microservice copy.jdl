@@ -1,0 +1,168 @@
+ 
+application {
+  config {
+    baseName gateway,
+    applicationType gateway,
+    packageName manager.com.gateway,
+    serviceDiscoveryType eureka,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    cacheProvider hazelcast,
+    buildTool maven,
+    clientFramework react,
+    useSass true,
+    testFrameworks [protractor]
+  }
+  entities *
+}
+
+application {
+  config {
+    baseName quanlychitieu,
+    applicationType microservice,
+    packageName manager.com.chitieu,
+    serviceDiscoveryType eureka,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    devDatabaseType mysql,
+    buildTool maven,
+    serverPort 8081,
+    skipUserManagement true
+  }
+  entities KiCongBo, NhomChiTieu, ChiTieu
+}
+
+application {
+  config {
+    baseName quanlycoquan,
+    applicationType microservice,
+    packageName manager.com.coquan,
+    serviceDiscoveryType eureka,
+    authenticationType jwt,
+    devDatabaseType mysql,
+    prodDatabaseType mysql,
+    buildTool maven,
+    serverPort 8082,
+    skipUserManagement true
+  }
+  entities LoaiCoQuan, CoQuan
+}
+
+application {
+  config {
+    baseName quanlytieuchi,
+    applicationType microservice,
+    packageName manager.com.tieuchi,
+    serviceDiscoveryType eureka,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    devDatabaseType mysql,
+    buildTool maven,
+    serverPort 8083,
+    skipUserManagement true
+  }
+  entities TieuChi, NhomDanhMuc, DanhMuc
+}
+
+/* Entities for chitieu */
+
+entity ChiTieu {
+    code String required
+    name String required
+    status String
+    userName String
+    updateTime String
+    updateProgram String
+}
+
+entity KiCongBo {
+    code String required
+    name String required
+    status String
+    userName String
+    updateTime String
+    updateProgram String
+}
+
+entity NhomChiTieu {
+    code String required
+    name String required
+    status String
+    userName String
+    updateTime String
+    updateProgram String
+}
+
+relationship OneToMany {
+   ChiTieu{kicongbo} to KiCongBo{chitieu}
+   KiCongBo{nhomchitieu} to NhomChiTieu{kicongbo},
+   }
+
+service KiCongBo, NhomChiTieu, ChiTieu with serviceClass
+paginate KiCongBo, NhomChiTieu, ChiTieu with pagination
+
+/* Entities for coquan */
+
+entity LoaiCoQuan {
+    code String required
+    name String required
+    status String
+    userName String
+    updateTime String
+    updateProgram String
+}
+
+entity CoQuan {
+    code String required
+    name String required
+    status String
+    userName String
+    updateTime String
+    updateProgram String
+}
+
+relationship OneToMany {
+   LoaiCoQuan{coquan} to CoQuan{loaicoquan}
+   }
+
+service LoaiCoQuan, CoQuan with serviceClass
+paginate LoaiCoQuan, CoQuan with pagination
+
+/* Entities for tieuchi */
+
+entity TieuChi {
+    code String required
+    name String required
+    status String
+    userName String
+    updateTime String
+    updateProgram String
+}
+
+entity NhomDanhMuc {
+    code String required
+    name String required
+    status String
+    userName String
+    updateTime String
+    updateProgram String
+}
+
+entity DanhMuc {
+    code String required
+    name String required
+    status String
+    userName String
+    updateTime String
+    updateProgram String
+}
+
+relationship OneToMany {
+   TieuChi{nhomdanhmuc} to NhomDanhMuc{tieuchi}
+   NhomDanhMuc{danhmuc} to DanhMuc{nhomdanhmuc},
+   }
+
+service TieuChi, NhomDanhMuc, DanhMuc with serviceClass
+paginate TieuChi, NhomDanhMuc, DanhMuc with pagination
+
+
